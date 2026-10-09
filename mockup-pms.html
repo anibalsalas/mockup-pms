@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMS Municipal — Maqueta de diseño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --color-primary:#06131e;
+    --color-primary-dark:#12283F;
+    --color-accent:#0F7B6C;
+    --color-accent-dark:#0C6358;
+    --color-bg:#F4F6F8;
+    --color-surface:#FFFFFF;
+    --color-text:#1F2933;
+    --color-text-muted:#64748B;
+    --color-border:#E2E8F0;
+    --status-done:#2E7D32;
+    --status-done-bg:#E7F4E8;
+    --status-progress:#ED8936;
+    --status-progress-bg:#FDF0E1;
+    --status-pending:#64748B;
+    --status-pending-bg:#EEF1F4;
+    --radius:10px;
+    --shadow:0 1px 3px rgba(16,24,40,.08), 0 1px 2px rgba(16,24,40,.04);
+    --shadow-lg:0 20px 50px rgba(10,20,35,.25);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;overflow-x:hidden;max-width:100%;}
+  body{
+    font-family:'Public Sans', -apple-system, Segoe UI, Roboto, sans-serif;
+    background:var(--color-bg);
+    color:var(--color-text);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{margin:0;font-weight:700;}
+  p{margin:0;}
+  button{font-family:inherit;}
+
+  /* ---------- Barra de maqueta (solo para esta demo) ---------- */
+  .demo-nav{
+    position:sticky;top:0;z-index:100;
+    background:#0B1C2C;
+    color:#B9C6D4;
+    padding:10px 16px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px;
+    font-size:.78rem;
+  }
+  .demo-nav .demo-label{
+    font-weight:700;color:#fff;letter-spacing:.03em;text-transform:uppercase;font-size:.72rem;
+    padding-right:8px;border-right:1px solid rgba(255,255,255,.15);margin-right:4px;
+  }
+  .demo-nav .group{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .demo-nav .group-tag{font-weight:700;font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;opacity:.7;margin-right:2px;}
+  .demo-nav button{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    color:#DCE4EB;
+    padding:6px 12px;
+    border-radius:999px;
+    cursor:pointer;
+    font-size:.78rem;
+    transition:background .15s, color .15s;
+    white-space:nowrap;
+  }
+  .demo-nav button:hover{background:rgba(255,255,255,.14);}
+  .demo-nav button.active{background:var(--color-accent);border-color:var(--color-accent);color:#fff;font-weight:600;}
+
+  /* ---------- Pantallas ---------- */
+  .screen{display:none;min-height:calc(100vh - 46px);}
+  .screen.active{display:block;}
+
+  /* ---------- Login ---------- */
+  .login-wrap{
+    min-height:calc(100vh - 46px);
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(160deg, var(--color-primary) 0%, var(--color-primary-dark) 55%, #0A1D30 100%);
+    padding:24px;
+  }
+  .login-card{
+    background:var(--color-surface);
+    border-radius:16px;
+    padding:40px 36px;
+    max-width:400px;width:100%;
+    box-shadow:var(--shadow-lg);
+  }
+  .crest{
+    width:56px;height:56px;border-radius:12px;
+    background:var(--color-primary);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:1.2rem;margin:0 auto 18px;
+  }
+  .login-card h1{text-align:center;font-size:1.05rem;color:var(--color-primary);margin-bottom:2px;}
+  .login-card .subtitle{text-align:center;color:var(--color-text-muted);font-size:.83rem;margin-bottom:28px;line-height:1.4;}
+  .field{margin-bottom:18px;display:flex;flex-direction:column;gap:6px;}
+  label{font-size:.83rem;font-weight:600;color:var(--color-text);}
+  input,select,textarea{
+    font-family:inherit;font-size:.95rem;
+    padding:10px 12px;border:1px solid var(--color-border);
+    border-radius:8px;background:#fff;color:var(--color-text);
+    width:100%;
+  }
+  input:focus,select:focus,textarea:focus{
+    outline:none;border-color:var(--color-accent);
+    box-shadow:0 0 0 3px rgba(15,123,108,.15);
+  }
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:11px 20px;border-radius:8px;font-weight:600;font-size:.9rem;
+    cursor:pointer;border:1px solid transparent;transition:background .15s, border-color .15s;
+    text-decoration:none;
+  }
+  .btn-primary{background:var(--color-accent);color:#fff;}
+  .btn-primary:hover{background:var(--color-accent-dark);}
+  .btn-secondary{background:#fff;color:var(--color-primary);border-color:var(--color-border);}
+  .btn-secondary:hover{background:#F1F4F7;}
+  .btn-block{width:100%;}
+  .login-card .btn-primary{margin-top:6px;}
+  .login-hint{
+    margin-top:22px;padding-top:18px;border-top:1px solid var(--color-border);
+    text-align:center;font-size:.78rem;color:var(--color-text-muted);line-height:1.6;
+  }
+  .login-hint .links{display:flex;gap:16px;justify-content:center;margin-top:8px;}
+  .login-hint a{color:var(--color-accent);font-weight:600;text-decoration:none;cursor:pointer;}
+  .login-hint a:hover{text-decoration:underline;}
+
+  /* ---------- Shell de aplicación (sidebar + contenido) ---------- */
+  .app-shell{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:calc(100vh - 46px);}
+  .sidebar{
+    background:var(--color-primary);color:#fff;
+    padding:24px 16px;display:flex;flex-direction:column;gap:4px;
+  }
+  .sidebar .brand{
+    font-weight:800;font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:10px;
+  }
+  .sidebar .brand .crest{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.12);font-size:.85rem;margin:0;flex-shrink:0;}
+  .sidebar .role-tag{margin:2px 0 22px;align-self:flex-start;}
+  .sidebar nav{display:flex;flex-direction:column;gap:2px;flex:1;}
+  .sidebar nav button{
+    all:unset;cursor:pointer;padding:10px 12px;border-radius:8px;
+    color:rgba(255,255,255,.82);font-size:.88rem;display:flex;gap:10px;align-items:center;
+  }
+  .sidebar nav button .nav-icon{color:#FFE066;flex-shrink:0;display:inline-flex;}
+  .sidebar nav button:hover{background:rgba(255,255,255,.08);}
+  .sidebar nav button.active{background:rgba(255,255,255,.16);color:#fff;font-weight:600;}
+  .sidebar .logout{margin-top:auto;}
+  .sidebar .logout button{color:rgba(255,255,255,.65);}
+
+  /* En escritorio estos envoltorios no alteran el layout de columna original */
+  .sidebar-top{display:contents;}
+  .sidebar-menu{display:contents;}
+  .hamburger{display:none;}
+
+  main{padding:28px 32px;max-width:1200px;width:100%;min-width:0;}
+
+  .role-tag{
+    font-size:.66rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+    padding:4px 10px;border-radius:999px;display:inline-block;
+  }
+  .role-tag.admin{background:#E9EEF5;color:var(--color-primary);}
+  .role-tag.colaborador{background:#E6F4F1;color:var(--color-accent);}
+  .sidebar .role-tag.admin{background:rgba(255,255,255,.14);color:#fff;}
+  .sidebar .role-tag.colaborador{background:rgba(255,255,255,.14);color:#fff;}
+
+  .topbar{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    flex-wrap:wrap;gap:14px;margin-bottom:26px;
+  }
+  .topbar .titles h1{font-size:1.35rem;color:var(--color-text);margin-bottom:4px;}
+  .topbar .titles .subtitle{color:var(--color-text-muted);font-size:.88rem;}
+  .user-chip{
+    display:flex;align-items:center;gap:10px;background:var(--color-surface);
+    padding:8px 14px 8px 8px;border-radius:999px;box-shadow:var(--shadow);flex-shrink:0;
+  }
+  .avatar{
+    width:34px;height:34px;border-radius:50%;background:var(--color-primary);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;flex-shrink:0;
+  }
+  .user-chip .name{font-size:.84rem;font-weight:600;line-height:1.2;}
+  .user-chip .role{font-size:.72rem;color:var(--color-text-muted);}
+
+  /* ---------- Tarjetas resumen ---------- */
+  .summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+  .summary-card{
+    background:var(--color-surface);border-radius:var(--radius);padding:18px 20px;
+    box-shadow:var(--shadow);border-left:4px solid var(--color-border);
+  }
+  .summary-card.c-total{border-left-color:var(--color-primary);}
+  .summary-card.c-pending{border-left-color:var(--status-pending);}
+  .summary-card.c-progress{border-left-color:var(--status-progress);}
+  .summary-card.c-done{border-left-color:var(--status-done);}
+  .summary-card .value{font-size:1.9rem;font-weight:800;color:var(--color-primary);line-height:1;}
+  .summary-card .label{color:var(--color-text-muted);font-size:.82rem;margin-top:6px;}
+
+  /* ---------- Filtros ---------- */
+  .panel{background:var(--color-surface);border-radius:var(--radius);box-shadow:var(--shadow);}
+  .panel-head{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+    padding:18px 20px;border-bottom:1px solid var(--color-border);
+  }
+  .panel-head h2{font-size:1.02rem;}
+  .filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:16px 20px;border-bottom:1px solid var(--color-border);}
+  .filters select{width:auto;min-width:160px;}
+  .filters .filters-label{font-size:.8rem;color:var(--color-text-muted);font-weight:600;}
+
+  .table-wrap{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;}
+  th{
+    text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--color-text-muted);padding:12px 20px;border-bottom:1px solid var(--color-border);
+    background:#FAFBFC;white-space:nowrap;
+  }
+  td{padding:14px 20px;border-bottom:1px solid var(--color-border);font-size:.88rem;vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  tbody tr{cursor:pointer;transition:background .12s;}
+  tbody tr:hover{background:#FAFBFC;}
+  .task-title{font-weight:600;color:var(--color-text);}
+  .task-title .task-loc{display:block;font-weight:400;color:var(--color-text-muted);font-size:.78rem;margin-top:2px;}
+
+  .status{
+    display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:700;
+    padding:4px 10px;border-radius:999px;white-space:nowrap;
+  }
+  .status::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;}
+  .status.done{background:var(--status-done-bg);color:var(--status-done);}
+  .status.progress{background:var(--status-progress-bg);color:var(--status-progress);}
+  .status.pending{background:var(--status-pending-bg);color:var(--status-pending);}
+
+  .priority{font-size:.78rem;font-weight:700;padding:3px 9px;border-radius:6px;white-space:nowrap;}
+  .priority.alta{background:#FBEAE9;color:#B42318;}
+  .priority.media{background:#FDF0E1;color:#92400E;}
+  .priority.baja{background:#EEF1F4;color:#475569;}
+
+  .progress-cell{display:flex;align-items:center;gap:10px;min-width:120px;}
+  .progress-bar{flex:1;height:8px;background:#E7EAEE;border-radius:999px;overflow:hidden;}
+  .progress-bar>span{display:block;height:100%;border-radius:999px;background:var(--color-accent);}
+  .progress-pct{font-size:.78rem;font-weight:700;color:var(--color-text-muted);width:34px;text-align:right;}
+
+  /* ---------- Formularios en tarjeta ---------- */
+  .form-card{
+    background:var(--color-surface);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:28px 28px 24px;max-width:640px;
+  }
+  .form-card h2{font-size:1.05rem;margin-bottom:4px;}
+  .form-card .form-sub{color:var(--color-text-muted);font-size:.85rem;margin-bottom:22px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  textarea{resize:vertical;min-height:90px;}
+  .form-actions{display:flex;gap:12px;margin-top:8px;justify-content:flex-end;}
+
+  /* ---------- Detalle de tarea ---------- */
+  .detail-head{
+    background:var(--color-surface);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:22px 24px;margin-bottom:24px;
+  }
+  .detail-head .dh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:18px;}
+  .detail-head h1{font-size:1.2rem;margin-bottom:6px;}
+  .detail-head .dh-loc{color:var(--color-text-muted);font-size:.86rem;}
+  .meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:16px;}
+  .meta-item .m-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-muted);margin-bottom:5px;}
+  .meta-item .m-value{font-size:.92rem;font-weight:600;}
+  .detail-progress{display:flex;align-items:center;gap:14px;}
+  .detail-progress .progress-bar{height:10px;}
+  .detail-progress .progress-pct{font-size:1rem;width:auto;}
+
+  .detail-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:start;}
+  .card-block{background:var(--color-surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px;}
+  .card-block h2{font-size:.98rem;margin-bottom:16px;}
+
+  .timeline{display:flex;flex-direction:column;gap:16px;}
+  .timeline-item{display:flex;gap:12px;}
+  .timeline-content{background:#FAFBFC;border:1px solid var(--color-border);border-radius:var(--radius);padding:14px 16px;flex:1;}
+  .timeline-content .tc-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
+  .timeline-content .tc-name{font-weight:700;font-size:.88rem;}
+  .timeline-content .tc-time{font-size:.74rem;color:var(--color-text-muted);}
+  .pct-change{display:inline-block;font-size:.76rem;font-weight:700;color:var(--color-accent);background:var(--status-done-bg);padding:2px 8px;border-radius:999px;margin-bottom:8px;}
+  .pct-change.is-accent{color:var(--color-accent);background:#E3F1EE;}
+  .timeline-content .tc-comment{font-size:.85rem;line-height:1.5;color:var(--color-text);}
+
+  .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  .gallery .photo{
+    aspect-ratio:1/1;border-radius:10px;
+    background:linear-gradient(135deg,#E2E8F0,#CBD5E1);
+    display:flex;align-items:center;justify-content:center;color:#94A3B8;font-size:1.6rem;
+  }
+
+  /* ---------- Mis tareas (colaborador) ---------- */
+  .task-card-list{display:flex;flex-direction:column;gap:12px;}
+  .task-card{
+    background:var(--color-surface);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:16px 20px;display:flex;flex-direction:column;gap:10px;
+  }
+  .task-card .tc-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+  .task-card .tc-title{font-weight:700;font-size:.95rem;}
+  .task-card .tc-due{font-size:.8rem;color:var(--color-text-muted);}
+  .task-card .tc-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+
+  /* ---------- Subida de fotos ---------- */
+  .upload-zone{
+    border:2px dashed var(--color-border);border-radius:var(--radius);
+    padding:28px 16px;text-align:center;color:var(--color-text-muted);
+    cursor:pointer;transition:border-color .15s, background .15s;
+  }
+  .upload-zone:hover{border-color:var(--color-accent);background:#F6FBFA;}
+  .upload-zone .uz-icon{font-size:1.8rem;margin-bottom:8px;}
+  .upload-zone .uz-text{font-size:.86rem;font-weight:600;color:var(--color-text);}
+  .upload-zone .uz-sub{font-size:.76rem;margin-top:2px;}
+  .thumbs-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+  .thumbs-row .photo{width:72px;height:72px;font-size:1.3rem;border-radius:8px;}
+
+  .range-row{display:flex;align-items:center;gap:14px;}
+  input[type="range"]{width:100%;accent-color:var(--color-accent);padding:0;}
+  .range-value{font-weight:800;color:var(--color-accent);font-size:1.1rem;min-width:46px;text-align:right;}
+
+  /* ---------- Subtareas (nota informativa) ---------- */
+  .subtask-note{
+    display:flex;gap:10px;align-items:flex-start;
+    background:#F6FBFA;border:1px solid #D7ECE8;border-radius:var(--radius);
+    padding:12px 14px;font-size:.82rem;color:var(--color-text);line-height:1.5;
+  }
+  .subtask-note .icon{flex-shrink:0;font-size:1rem;}
+  .subtask-note span:last-child{min-width:0;}
+  .subtask-mini{font-size:.76rem;color:var(--color-text-muted);}
+
+  /* ---------- Subtareas (filas del formulario de creación) ---------- */
+  .subtask-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--color-border);}
+  .subtask-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+  .subtask-row .field{flex:1;min-width:140px;margin-bottom:0;}
+  .subtask-row .field-title{flex:1.6;min-width:180px;}
+  .subtask-row .remove-row{
+    flex-shrink:0;background:none;border:1px solid var(--color-border);color:var(--color-text-muted);
+    width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:.9rem;
+  }
+  .subtask-row .remove-row:hover{background:#FBEAE9;color:#B42318;border-color:#FBEAE9;}
+  .add-row-btn{margin-top:4px;}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:900px){
+    .demo-nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .demo-nav .group{flex-wrap:nowrap;}
+    .demo-nav .demo-label,.demo-nav .group-tag{white-space:nowrap;}
+    .app-shell{grid-template-columns:minmax(0,1fr);}
+
+    /* Sidebar -> barra compacta + menú hamburguesa desplegable */
+    .sidebar{display:block;position:relative;padding:0;z-index:40;}
+    .sidebar-top{
+      display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;
+      padding:12px 14px;
+    }
+    .sidebar-top .brand{margin-bottom:0;flex-shrink:1;min-width:0;}
+    .sidebar-top .brand .brand-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .sidebar-top .role-tag{margin:0;align-self:center;flex-shrink:0;}
+    .hamburger{
+      display:inline-block;position:relative;
+      width:38px;height:38px;border-radius:8px;margin-left:auto;flex-shrink:0;
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);
+      cursor:pointer;padding:0;
+    }
+    .hamburger:hover{background:rgba(255,255,255,.22);}
+    .hamburger-bar{
+      position:absolute;left:9px;width:18px;height:2px;border-radius:2px;
+      background:#fff;transition:transform .2s ease, opacity .2s ease, top .2s ease;
+    }
+    .hamburger-bar:nth-child(1){top:13px;}
+    .hamburger-bar:nth-child(2){top:18px;}
+    .hamburger-bar:nth-child(3){top:23px;}
+    .hamburger.is-open .hamburger-bar:nth-child(1){top:18px;transform:rotate(45deg);}
+    .hamburger.is-open .hamburger-bar:nth-child(2){opacity:0;}
+    .hamburger.is-open .hamburger-bar:nth-child(3){top:18px;transform:rotate(-45deg);}
+    .hamburger.is-open{background:var(--color-accent);border-color:var(--color-accent);}
+    .sidebar-menu{
+      display:none;flex-direction:column;gap:2px;
+      position:absolute;top:100%;left:0;right:0;
+      background:var(--color-primary-dark);
+      padding:8px 14px 14px;
+      box-shadow:0 16px 30px rgba(0,0,0,.28);
+      border-radius:0 0 12px 12px;
+    }
+    .sidebar-menu.open{display:flex;}
+    .sidebar-menu nav{flex-direction:column;flex:none;gap:2px;}
+    .sidebar-menu .logout{margin:8px 0 0;}
+    main{padding:20px;}
+    .summary-grid{grid-template-columns:repeat(2,1fr);}
+    .meta-grid{grid-template-columns:repeat(2,1fr);}
+    .detail-grid{grid-template-columns:1fr;}
+    .form-row{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .summary-grid{grid-template-columns:1fr;}
+    .meta-grid{grid-template-columns:1fr 1fr;}
+    .demo-nav{font-size:.72rem;}
+    main{padding:16px;}
+    .form-card{padding:20px;}
+    .subtask-row{position:relative;padding-right:44px;}
+    .subtask-row .field-title{flex-basis:100%;}
+    .subtask-row .field{min-width:120px;}
+    .subtask-row .remove-row{position:absolute;top:0;right:0;}
+  }
+  @media (max-width:420px){
+    .sidebar-top .brand .brand-text{display:none;}
+    .sidebar-top .role-tag{font-size:.6rem;padding:4px 8px;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===================== BARRA DE NAVEGACIÓN DE LA MAQUETA ===================== -->
+  <div class="demo-nav">
+    <span class="demo-label">Maqueta — ir a pantalla</span>
+    <div class="group">
+      <span class="group-tag">Común</span>
+      <button data-target="screen-login" onclick="showScreen('screen-login')" class="active">Login</button>
+    </div>
+    <div class="group">
+      <span class="group-tag">Alcalde</span>
+      <button data-target="screen-dashboard" onclick="showScreen('screen-dashboard')">Tablero</button>
+      <button data-target="screen-create-task" onclick="showScreen('screen-create-task')">Nueva tarea</button>
+      <button data-target="screen-task-detail" onclick="showScreen('screen-task-detail')">Detalle de tarea</button>
+    </div>
+    <div class="group">
+      <span class="group-tag">Colaborador</span>
+      <button data-target="screen-my-tasks" onclick="showScreen('screen-my-tasks')">Mis tareas</button>
+      <button data-target="screen-report-progress" onclick="showScreen('screen-report-progress')">Reportar avance</button>
+    </div>
+  </div>
+
+  <!-- ===================== 1. LOGIN ===================== -->
+  <section id="screen-login" class="screen active">
+    <div class="login-wrap">
+      <div class="login-card">
+        <div class="crest">MD</div>
+        <h1>Municipalidad Distrital</h1>
+        <p class="subtitle">Sistema de Gestión y Seguimiento de Tareas<br>Acceso exclusivo para personal autorizado</p>
+
+        <div class="field">
+          <label for="loginUser">Usuario</label>
+          <input id="loginUser" type="text" placeholder="nombre.apellido" value="lfernandez">
+        </div>
+        <div class="field">
+          <label for="loginPass">Contraseña</label>
+          <input id="loginPass" type="password" placeholder="••••••••" value="••••••••">
+        </div>
+        <button class="btn btn-primary btn-block" onclick="showScreen('screen-dashboard')">Entrar</button>
+
+        <div class="login-hint">
+          Vista de demostración — elige con qué rol ingresar
+          <div class="links">
+            <a onclick="showScreen('screen-dashboard')">Entrar como Alcalde</a>
+            <a onclick="showScreen('screen-my-tasks')">Entrar como Colaborador</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 2. TABLERO DEL ALCALDE (ADMIN) ===================== -->
+  <section id="screen-dashboard" class="screen">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="brand"><span class="crest">MD</span><span class="brand-text">PMS Municipal</span></div>
+          <span class="role-tag admin">Administrador</span>
+          <button class="hamburger" onclick="toggleSidebar(this)" aria-label="Abrir menú" aria-expanded="false">
+            <span class="hamburger-bar"></span><span class="hamburger-bar"></span><span class="hamburger-bar"></span>
+          </button>
+        </div>
+        <div class="sidebar-menu">
+          <nav>
+            <button data-target="screen-dashboard" class="active" onclick="showScreen('screen-dashboard')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></span> Tablero</button>
+            <button data-target="screen-create-task" onclick="showScreen('screen-create-task')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></span> Nueva tarea</button>
+            <button data-target="screen-task-detail" onclick="showScreen('screen-task-detail')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></span> Detalle de tarea</button>
+          </nav>
+          <div class="logout"><button onclick="showScreen('screen-login')">↩ Cerrar sesión</button></div>
+        </div>
+      </aside>
+
+      <main>
+        <div class="topbar">
+          <div class="titles">
+            <h1>Tablero general</h1>
+            <p class="subtitle">Resumen de tareas de todo el equipo municipal</p>
+          </div>
+          <div class="user-chip">
+            <div class="avatar">LF</div>
+            <div>
+              <div class="name">Ing. Luis Fernández</div>
+              <div class="role">Alcalde Distrital</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-card c-total"><div class="value">24</div><div class="label">Total de tareas</div></div>
+          <div class="summary-card c-pending"><div class="value">7</div><div class="label">Pendientes</div></div>
+          <div class="summary-card c-progress"><div class="value">11</div><div class="label">En progreso</div></div>
+          <div class="summary-card c-done"><div class="value">6</div><div class="label">Terminadas</div></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Tareas registradas</h2>
+            <button class="btn btn-primary" onclick="showScreen('screen-create-task')">➕ Nueva tarea</button>
+          </div>
+          <div class="filters">
+            <span class="filters-label">Filtrar por:</span>
+            <select>
+              <option>Responsable: Todos</option>
+              <option>Jorge Medina Flores</option>
+              <option>Lucía Vargas Ruiz</option>
+              <option>Carlos Huamán Soto</option>
+              <option>Rosa Delgado Paredes</option>
+            </select>
+            <select>
+              <option>Estado: Todos</option>
+              <option>Pendiente</option>
+              <option>En progreso</option>
+              <option>Terminada</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tarea</th><th>Responsable</th><th>Prioridad</th><th>Vence</th><th>Estado</th><th>Avance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="showScreen('screen-task-detail')">
+                  <td class="task-title">Inspección de obra en Av. Principal<span class="task-loc">Tramo 2 — Pavimentación · 2/4 subtareas completadas</span></td>
+                  <td>Jorge Medina Flores</td>
+                  <td><span class="priority alta">Alta</span></td>
+                  <td>15/11/2026</td>
+                  <td><span class="status progress">En progreso</span></td>
+                  <td><div class="progress-cell"><div class="progress-bar"><span style="width:65%"></span></div><span class="progress-pct">65%</span></div></td>
+                </tr>
+                <tr onclick="showScreen('screen-task-detail')">
+                  <td class="task-title">Informe mensual de limpieza pública<span class="task-loc">Gerencia de Servicios Públicos</span></td>
+                  <td>Lucía Vargas Ruiz</td>
+                  <td><span class="priority media">Media</span></td>
+                  <td>30/10/2026</td>
+                  <td><span class="status pending">Pendiente</span></td>
+                  <td><div class="progress-cell"><div class="progress-bar"><span style="width:0%"></span></div><span class="progress-pct">0%</span></div></td>
+                </tr>
+                <tr onclick="showScreen('screen-task-detail')">
+                  <td class="task-title">Mantenimiento de parque Las Flores<span class="task-loc">Sector 3 — Áreas verdes</span></td>
+                  <td>Carlos Huamán Soto</td>
+                  <td><span class="priority media">Media</span></td>
+                  <td>05/11/2026</td>
+                  <td><span class="status progress">En progreso</span></td>
+                  <td><div class="progress-cell"><div class="progress-bar"><span style="width:40%"></span></div><span class="progress-pct">40%</span></div></td>
+                </tr>
+                <tr onclick="showScreen('screen-task-detail')">
+                  <td class="task-title">Reparación de alumbrado público<span class="task-loc">Jr. Los Pinos, cuadras 1-4</span></td>
+                  <td>Jorge Medina Flores</td>
+                  <td><span class="priority alta">Alta</span></td>
+                  <td>20/10/2026</td>
+                  <td><span class="status done">Terminada</span></td>
+                  <td><div class="progress-cell"><div class="progress-bar"><span style="width:100%"></span></div><span class="progress-pct">100%</span></div></td>
+                </tr>
+                <tr onclick="showScreen('screen-task-detail')">
+                  <td class="task-title">Fiscalización de comercio ambulatorio<span class="task-loc">Mercado Central</span></td>
+                  <td>Rosa Delgado Paredes</td>
+                  <td><span class="priority baja">Baja</span></td>
+                  <td>12/11/2026</td>
+                  <td><span class="status pending">Pendiente</span></td>
+                  <td><div class="progress-cell"><div class="progress-bar"><span style="width:0%"></span></div><span class="progress-pct">0%</span></div></td>
+                </tr>
+                <tr onclick="showScreen('screen-task-detail')">
+                  <td class="task-title">Campaña de fumigación<span class="task-loc">Sector Miraflores</span></td>
+                  <td>Lucía Vargas Ruiz</td>
+                  <td><span class="priority alta">Alta</span></td>
+                  <td>08/11/2026</td>
+                  <td><span class="status progress">En progreso</span></td>
+                  <td><div class="progress-cell"><div class="progress-bar"><span style="width:80%"></span></div><span class="progress-pct">80%</span></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- ===================== 3. CREAR / ASIGNAR TAREA (ADMIN) ===================== -->
+  <section id="screen-create-task" class="screen">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="brand"><span class="crest">MD</span><span class="brand-text">PMS Municipal</span></div>
+          <span class="role-tag admin">Administrador</span>
+          <button class="hamburger" onclick="toggleSidebar(this)" aria-label="Abrir menú" aria-expanded="false">
+            <span class="hamburger-bar"></span><span class="hamburger-bar"></span><span class="hamburger-bar"></span>
+          </button>
+        </div>
+        <div class="sidebar-menu">
+          <nav>
+            <button data-target="screen-dashboard" onclick="showScreen('screen-dashboard')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></span> Tablero</button>
+            <button data-target="screen-create-task" class="active" onclick="showScreen('screen-create-task')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></span> Nueva tarea</button>
+            <button data-target="screen-task-detail" onclick="showScreen('screen-task-detail')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></span> Detalle de tarea</button>
+          </nav>
+          <div class="logout"><button onclick="showScreen('screen-login')">↩ Cerrar sesión</button></div>
+        </div>
+      </aside>
+
+      <main>
+        <div class="topbar">
+          <div class="titles">
+            <h1>Nueva tarea</h1>
+            <p class="subtitle">Asigna una tarea a un miembro de tu equipo</p>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h2>Datos de la tarea</h2>
+          <p class="form-sub">Los campos marcados son obligatorios</p>
+
+          <div class="field">
+            <label>Título de la tarea</label>
+            <input type="text" placeholder="Ej: Inspección de obra en Av. Principal">
+          </div>
+
+          <div class="field">
+            <label>Descripción</label>
+            <textarea placeholder="Detalla el alcance, la ubicación y cualquier indicación relevante para el responsable..."></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label>Responsable</label>
+              <select>
+                <option>Seleccionar colaborador...</option>
+                <option>Jorge Medina Flores — Inspector de Obras</option>
+                <option>Lucía Vargas Ruiz — Servicios Públicos</option>
+                <option>Carlos Huamán Soto — Áreas Verdes</option>
+                <option>Rosa Delgado Paredes — Fiscalización</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Prioridad</label>
+              <select>
+                <option>Media</option>
+                <option>Alta</option>
+                <option>Baja</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Fecha límite</label>
+            <input type="date" id="mainTaskDueDate" value="2026-11-20">
+          </div>
+
+          <div class="field">
+            <label>Subtareas (opcional)</label>
+            <div id="subtasksContainer">
+              <div class="subtask-row">
+                <div class="field field-title"><input type="text" placeholder="Ej: Revisión de cimentación — Tramo 1" value="Revisión de cimentación — Tramo 1"></div>
+                <div class="field"><input type="date" value="2026-09-20"></div>
+                <div class="field"><input type="date" value="2026-10-02"></div>
+                <button type="button" class="remove-row" onclick="this.closest('.subtask-row').remove()" title="Quitar subtarea">✕</button>
+              </div>
+              <div class="subtask-row">
+                <div class="field field-title"><input type="text" placeholder="Nombre de la subtarea" value="Revisión de acabados y señalización"></div>
+                <div class="field"><input type="date" value="2026-10-21"></div>
+                <div class="field"><input type="date" value="2026-11-10"></div>
+                <button type="button" class="remove-row" onclick="this.closest('.subtask-row').remove()" title="Quitar subtarea">✕</button>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary add-row-btn" onclick="addSubtaskRow()">➕ Agregar subtarea</button>
+            <p class="subtask-mini" style="margin-top:10px;">Cada subtarea tiene su propia fecha de inicio y fin, dentro del rango de la tarea principal (hasta su fecha límite). El % de avance final de la tarea se calcula automáticamente a partir del avance de todas sus subtareas.</p>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-secondary" onclick="showScreen('screen-dashboard')">Cancelar</button>
+            <button class="btn btn-primary" onclick="showScreen('screen-dashboard')">Guardar y asignar</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- ===================== 4. DETALLE DE TAREA ===================== -->
+  <section id="screen-task-detail" class="screen">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="brand"><span class="crest">MD</span><span class="brand-text">PMS Municipal</span></div>
+          <span class="role-tag admin">Administrador</span>
+          <button class="hamburger" onclick="toggleSidebar(this)" aria-label="Abrir menú" aria-expanded="false">
+            <span class="hamburger-bar"></span><span class="hamburger-bar"></span><span class="hamburger-bar"></span>
+          </button>
+        </div>
+        <div class="sidebar-menu">
+          <nav>
+            <button data-target="screen-dashboard" onclick="showScreen('screen-dashboard')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></span> Tablero</button>
+            <button data-target="screen-create-task" onclick="showScreen('screen-create-task')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></span> Nueva tarea</button>
+            <button data-target="screen-task-detail" class="active" onclick="showScreen('screen-task-detail')"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></span> Detalle de tarea</button>
+          </nav>
+          <div class="logout"><button onclick="showScreen('screen-login')">↩ Cerrar sesión</button></div>
+        </div>
+      </aside>
+
+      <main>
+        <div class="topbar">
+          <div class="titles">
+            <p class="subtitle" style="margin-bottom:6px;">← <a href="#" onclick="showScreen('screen-dashboard');return false;" style="color:var(--color-text-muted);text-decoration:none;">Volver al tablero</a></p>
+          </div>
+        </div>
+
+        <div class="detail-head">
+          <div class="dh-top">
+            <div>
+              <h1>Inspección de obra en Av. Principal</h1>
+              <p class="dh-loc">Tramo 2 — Pavimentación · Gerencia de Infraestructura</p>
+            </div>
+            <span class="status progress">En progreso</span>
+          </div>
+          <div class="meta-grid">
+            <div class="meta-item"><div class="m-label">Responsable</div><div class="m-value">Jorge Medina Flores</div></div>
+            <div class="meta-item"><div class="m-label">Prioridad</div><div class="m-value"><span class="priority alta">Alta</span></div></div>
+            <div class="meta-item"><div class="m-label">Fecha límite</div><div class="m-value">15/11/2026</div></div>
+            <div class="meta-item"><div class="m-label">Creada el</div><div class="m-value">20/09/2026</div></div>
+          </div>
+          <div class="detail-progress">
+            <div class="progress-bar"><span style="width:65%"></span></div>
+            <span class="progress-pct">65%</span>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:24px;">
+          <div class="panel-head">
+            <h2>Subtareas</h2>
+            <span class="subtask-mini">El avance de la tarea principal se calcula automáticamente</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Subtarea</th><th>Fecha inicio</th><th>Fecha fin</th><th>Estado</th><th>Avance</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="task-title">Revisión de cimentación — Tramo 1</td>
+                  <td>20/09/2026</td><td>02/10/2026</td>
+                  <td><span class="status done">Terminada</span></td>
+                  <td><div class="progress-cell"><div class="progress-bar"><span style="width:100%"></span></div><span class="progress-pct">100%</span></div></td>
+                </tr>
+                <tr>
+                  <td class="task-title">Revisión de cimentación — Tramo 2</td>
+                  <td>03/10/2026</td><td>20/10/2026</td>
+                  <td><span class="status done">Terminada</span></td>
+                  <td><div class="progress-cell"><div class="progress-bar"><span style="width:100%"></span></div><span class="progress-pct">100%</span></div></td>
+                </tr>
+                <tr>
+                  <td class="task-title">Revisión de acabados y señalización</td>
+                  <td>21/10/2026</td><td>10/11/2026</td>
+                  <td><span class="status progress">En progreso</span></td>
+                  <td><div class="progress-cell"><div class="progress-bar"><span style="width:60%"></span></div><span class="progress-pct">60%</span></div></td>
+                </tr>
+                <tr>
+                  <td class="task-title">Informe final de inspección</td>
+                  <td>11/11/2026</td><td>15/11/2026</td>
+                  <td><span class="status pending">Pendiente</span></td>
+                  <td><div class="progress-cell"><div class="progress-bar"><span style="width:0%"></span></div><span class="progress-pct">0%</span></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="padding:14px 20px 18px;">
+            <div class="subtask-note"><span class="icon">ℹ️</span><span>El avance de la tarea principal (65%) es el promedio del avance de sus 4 subtareas. La última subtarea vence el 15/11/2026 — la misma fecha límite de la tarea principal.</span></div>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="card-block">
+            <h2>Historial de avances</h2>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="avatar">JM</div>
+                <div class="timeline-content">
+                  <div class="tc-head"><span class="tc-name">Jorge Medina Flores</span><span class="tc-time">08/10/2026 — 09:40 a.m.</span></div>
+                  <span class="pct-change is-accent">De 40% a 65%</span>
+                  <p class="tc-comment">Se revisó el avance de cimentación del tramo 2, coordinando con el residente de obra. Falta revisión de acabados y señalización temporal.</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="avatar">JM</div>
+                <div class="timeline-content">
+                  <div class="tc-head"><span class="tc-name">Jorge Medina Flores</span><span class="tc-time">02/10/2026 — 02:15 p.m.</span></div>
+                  <span class="pct-change is-accent">De 20% a 40%</span>
+                  <p class="tc-comment">Inicio de verificación de materiales y avance de excavación en el tramo 1. Se coordinó con proveedor el abastecimiento de agregados.</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="avatar">JM</div>
+                <div class="timeline-content">
+                  <div class="tc-head"><span class="tc-name">Jorge Medina Flores</span><span class="tc-time">25/09/2026 — 11:00 a.m.</span></div>
+                  <span class="pct-change is-accent">De 0% a 20%</span>
+                  <p class="tc-comment">Primera visita de campo. Se registran las condiciones iniciales del tramo y se levanta panel fotográfico de referencia.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-block">
+            <h2>Evidencia fotográfica</h2>
+            <div class="gallery">
+              <div class="photo">📷</div>
+              <div class="photo">📷</div>
+              <div class="photo">📷</div>
+              <div class="photo">📷</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- ===================== 5. MIS TAREAS (COLABORADOR) ===================== -->
+  <section id="screen-my-tasks" class="screen">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="brand"><span class="crest">MD</span><span class="brand-text">PMS Municipal</span></div>
+          <span class="role-tag colaborador">Colaborador</span>
+          <button class="hamburger" onclick="toggleSidebar(this)" aria-label="Abrir menú" aria-expanded="false">
+            <span class="hamburger-bar"></span><span class="hamburger-bar"></span><span class="hamburger-bar"></span>
+          </button>
+        </div>
+        <div class="sidebar-menu">
+          <nav>
+            <button data-target="screen-my-tasks" class="active" onclick="showScreen('screen-my-tasks')">✅ Mis tareas</button>
+            <button data-target="screen-report-progress" onclick="showScreen('screen-report-progress')">📤 Reportar avance</button>
+          </nav>
+          <div class="logout"><button onclick="showScreen('screen-login')">↩ Cerrar sesión</button></div>
+        </div>
+      </aside>
+
+      <main>
+        <div class="topbar">
+          <div class="titles">
+            <h1>Mis tareas</h1>
+            <p class="subtitle">Tareas que te han sido asignadas</p>
+          </div>
+          <div class="user-chip">
+            <div class="avatar">JM</div>
+            <div>
+              <div class="name">Jorge Medina Flores</div>
+              <div class="role">Inspector de Obras</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="task-card-list">
+          <div class="task-card">
+            <div class="tc-row">
+              <span class="tc-title">Inspección de obra en Av. Principal</span>
+              <span class="status progress">En progreso</span>
+            </div>
+            <p class="subtask-mini" style="margin:-4px 0 0;">4 subtareas · 2 completadas · 1 en progreso · 1 pendiente</p>
+            <div class="progress-cell"><div class="progress-bar"><span style="width:65%"></span></div><span class="progress-pct">65%</span></div>
+            <div class="tc-foot">
+              <span class="tc-due">Vence: 15/11/2026 · Prioridad <span class="priority alta">Alta</span></span>
+              <button class="btn btn-primary" onclick="showScreen('screen-report-progress')">Reportar avance</button>
+            </div>
+          </div>
+
+          <div class="task-card">
+            <div class="tc-row">
+              <span class="tc-title">Reparación de alumbrado público</span>
+              <span class="status done">Terminada</span>
+            </div>
+            <div class="progress-cell"><div class="progress-bar"><span style="width:100%"></span></div><span class="progress-pct">100%</span></div>
+            <div class="tc-foot">
+              <span class="tc-due">Vence: 20/10/2026 · Prioridad <span class="priority alta">Alta</span></span>
+              <button class="btn btn-secondary" onclick="showScreen('screen-task-detail')">Ver detalle</button>
+            </div>
+          </div>
+
+          <div class="task-card">
+            <div class="tc-row">
+              <span class="tc-title">Verificación de veredas — Jr. San Martín</span>
+              <span class="status pending">Pendiente</span>
+            </div>
+            <div class="progress-cell"><div class="progress-bar"><span style="width:0%"></span></div><span class="progress-pct">0%</span></div>
+            <div class="tc-foot">
+              <span class="tc-due">Vence: 22/11/2026 · Prioridad <span class="priority media">Media</span></span>
+              <button class="btn btn-primary" onclick="showScreen('screen-report-progress')">Reportar avance</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- ===================== 6. REPORTAR AVANCE (COLABORADOR) ===================== -->
+  <section id="screen-report-progress" class="screen">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="brand"><span class="crest">MD</span><span class="brand-text">PMS Municipal</span></div>
+          <span class="role-tag colaborador">Colaborador</span>
+          <button class="hamburger" onclick="toggleSidebar(this)" aria-label="Abrir menú" aria-expanded="false">
+            <span class="hamburger-bar"></span><span class="hamburger-bar"></span><span class="hamburger-bar"></span>
+          </button>
+        </div>
+        <div class="sidebar-menu">
+          <nav>
+            <button data-target="screen-my-tasks" onclick="showScreen('screen-my-tasks')">✅ Mis tareas</button>
+            <button data-target="screen-report-progress" class="active" onclick="showScreen('screen-report-progress')">📤 Reportar avance</button>
+          </nav>
+          <div class="logout"><button onclick="showScreen('screen-login')">↩ Cerrar sesión</button></div>
+        </div>
+      </aside>
+
+      <main>
+        <div class="topbar">
+          <div class="titles">
+            <h1>Reportar avance</h1>
+            <p class="subtitle">Actualiza el progreso de una tarea asignada</p>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h2>Detalle del avance</h2>
+          <p class="form-sub">Adjunta fotos como evidencia del trabajo realizado</p>
+
+          <div class="field">
+            <label>Tarea</label>
+            <select>
+              <option>Inspección de obra en Av. Principal</option>
+              <option>Verificación de veredas — Jr. San Martín</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Subtarea</label>
+            <select>
+              <option>Revisión de acabados y señalización (En progreso — 21/10 al 10/11/2026)</option>
+              <option>Informe final de inspección (Pendiente — 11/11 al 15/11/2026)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Porcentaje de avance de la subtarea</label>
+            <div class="range-row">
+              <input type="range" min="0" max="100" value="60" oninput="document.getElementById('rangeValue').textContent=this.value+'%'">
+              <span class="range-value" id="rangeValue">60%</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Comentario</label>
+            <textarea placeholder="Describe el avance realizado, incidencias encontradas o pendientes...">Se avanzó con la señalización temporal del tramo 2. Queda pendiente la revisión final de acabados.</textarea>
+          </div>
+
+          <div class="field">
+            <div class="subtask-note"><span class="icon">ℹ️</span><span>Este avance se aplica a la subtarea seleccionada. El % de la tarea principal "Inspección de obra en Av. Principal" se recalculará automáticamente como el promedio del avance de todas sus subtareas.</span></div>
+          </div>
+
+          <div class="field">
+            <label>Fotos de evidencia</label>
+            <div class="upload-zone">
+              <div class="uz-icon">📷</div>
+              <div class="uz-text">Haz clic o arrastra tus fotos aquí</div>
+              <div class="uz-sub">JPG o PNG, hasta 10 MB por foto</div>
+            </div>
+            <div class="thumbs-row">
+              <div class="photo">📷</div>
+              <div class="photo">📷</div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-secondary" onclick="showScreen('screen-my-tasks')">Cancelar</button>
+            <button class="btn btn-primary" onclick="showScreen('screen-my-tasks')">Guardar avance</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+<script>
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.toggle('active', s.id === id); });
+    document.querySelectorAll('[data-target]').forEach(function(el){ el.classList.toggle('active', el.getAttribute('data-target') === id); });
+    closeAllSidebars();
+    window.scrollTo(0,0);
+  }
+
+  function toggleSidebar(btn){
+    var menu = btn.closest('.sidebar').querySelector('.sidebar-menu');
+    var isOpen = menu.classList.toggle('open');
+    btn.classList.toggle('is-open', isOpen);
+    btn.setAttribute('aria-expanded', isOpen);
+  }
+
+  function closeAllSidebars(){
+    document.querySelectorAll('.sidebar-menu.open').forEach(function(menu){ menu.classList.remove('open'); });
+    document.querySelectorAll('.hamburger.is-open').forEach(function(btn){ btn.classList.remove('is-open'); btn.setAttribute('aria-expanded','false'); });
+  }
+
+  function addSubtaskRow(){
+    var container = document.getElementById('subtasksContainer');
+    var row = document.createElement('div');
+    row.className = 'subtask-row';
+    row.innerHTML =
+      '<div class="field field-title"><input type="text" placeholder="Nombre de la subtarea"></div>' +
+      '<div class="field"><input type="date"></div>' +
+      '<div class="field"><input type="date"></div>' +
+      '<button type="button" class="remove-row" onclick="this.closest(\'.subtask-row\').remove()" title="Quitar subtarea">✕</button>';
+    container.appendChild(row);
+  }
+</script>
+</body>
+</html>
